@@ -1,0 +1,2115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#12301f">
+  <title>ReAgro — Mediação de resíduos agroindustriais</title>
+  <meta name="description" content="A ReAgro conecta quem gera resíduo agroindustrial a quem pode reaproveitá-lo, destinando, transportando e documentando com segurança.">
+  <meta property="og:title" content="ReAgro — O resíduo do campo volta a valer.">
+  <meta property="og:description" content="Mediação entre quem gera resíduo agroindustrial e quem pode reaproveitá-lo: destina, transporta e documenta.">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2312301f'/%3E%3Ccircle cx='32' cy='32' r='21' fill='none' stroke='%23f0a93b' stroke-width='5'/%3E%3Ccircle cx='36' cy='27' r='9.5' fill='%232e8f57'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Exact palette extracted from ReAgro PDF deck */
+      --bg-dark: #12301f;
+      --surface-dark: #1d4630;
+      --bg-light: #f3f0e6;
+      --surface-light: #e2decf;
+      --green: #1f6a3f;
+      --green-leaf: #2e8f57;
+      --amber: #f0a93b;
+      --amber-hover: #e09a2c;
+      --terracotta: #b5451b;
+      --muted-dark: #b8c7bc;
+      --muted-light: #4d6455;
+      --line-dark: rgba(243, 240, 230, 0.14);
+      --line-dark-strong: rgba(243, 240, 230, 0.28);
+      --line-light: rgba(18, 48, 31, 0.14);
+
+      --font-display: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+      --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+      --nav-h: 64px;
+      --gutter: clamp(20px, 4.5vw, 48px);
+      --max-w: 1120px;
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-ui: cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    @media (min-width: 820px) {
+      :root {
+        --nav-h: 72px;
+      }
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg-dark);
+      color: var(--bg-light);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: clip;
+    }
+
+    section[id],
+    div[id],
+    footer[id] {
+      scroll-margin-top: calc(var(--nav-h) + 20px);
+    }
+
+    img, svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    h1, h2, h3, h4, p, ol, ul, dl, dt, dd {
+      margin: 0;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .wrap {
+      width: min(100% - 2 * var(--gutter), var(--max-w));
+      margin-inline: auto;
+    }
+
+    /* Accessibility: skip link & focus rings */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 10px;
+      z-index: 100;
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 10px;
+      background: var(--amber);
+      color: var(--bg-dark);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .skip-link:focus-visible {
+      left: 0;
+    }
+
+    :where(a, button, input, select, textarea):focus-visible {
+      outline: 2px solid var(--amber);
+      outline-offset: 3px;
+    }
+
+    .band--light :where(a, button, input, select, textarea):focus-visible {
+      outline-color: var(--green);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 12px 22px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.2;
+      text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition:
+        background-color 150ms var(--ease-ui),
+        border-color 150ms var(--ease-ui),
+        transform 150ms var(--ease-ui);
+    }
+
+    .btn--primary {
+      background: var(--amber);
+      color: var(--bg-dark);
+    }
+
+    .btn--secondary {
+      background: transparent;
+      color: var(--bg-light);
+      border-color: var(--line-dark-strong);
+    }
+
+    .btn--full {
+      width: 100%;
+    }
+
+    .m-arrow {
+      width: 18px;
+      height: 18px;
+      flex: 0 0 auto;
+      transition: transform 150ms var(--ease-ui);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+      .btn--primary:hover {
+        background: var(--amber-hover);
+      }
+      .btn--secondary:hover {
+        background: rgba(243, 240, 230, 0.08);
+        border-color: var(--bg-light);
+      }
+      .btn:hover .m-arrow {
+        transform: translateX(3px);
+      }
+    }
+
+    .btn:active {
+      transform: translateY(1px) scale(0.985);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 519px) {
+      .btn-row .btn {
+        width: 100%;
+      }
+    }
+
+    /* Fixed Header */
+    .nav {
+      position: fixed;
+      inset-block-start: 0;
+      inset-inline: 0;
+      height: var(--nav-h);
+      z-index: 50;
+      background: var(--bg-dark);
+      border-bottom: 1px solid var(--line-dark);
+    }
+
+    .nav__inner {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      position: relative;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 44px;
+      text-decoration: none;
+      flex: 0 0 auto;
+    }
+
+    .brand__mark {
+      width: 26px;
+      height: 26px;
+      flex: 0 0 auto;
+    }
+
+    .brand__name {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--amber);
+    }
+
+    .nav__links {
+      display: none;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav__link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--bg-light);
+      text-decoration: none;
+      transition: color 150ms var(--ease-ui);
+    }
+
+    .nav__link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 8px;
+      height: 1.5px;
+      background: var(--amber);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 160ms var(--ease-ui);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .nav__link:hover {
+        color: var(--amber);
+      }
+      .nav__link:hover::after {
+        transform: scaleX(1);
+      }
+    }
+
+    .nav__actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 0 0 auto;
+    }
+
+    .nav__cta {
+      min-height: 44px;
+      padding: 10px 14px;
+      font-size: 15px;
+    }
+
+    .cta-full {
+      display: none;
+    }
+
+    .cta-short {
+      display: inline;
+    }
+
+    .nav__toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border-radius: 10px;
+      border: 1px solid var(--line-dark-strong);
+      background: transparent;
+      color: var(--bg-light);
+      cursor: pointer;
+      transition: background-color 150ms var(--ease-ui), border-color 150ms var(--ease-ui);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .nav__toggle:hover {
+        background: rgba(243, 240, 230, 0.08);
+        border-color: var(--bg-light);
+      }
+    }
+
+    @media (min-width: 820px) {
+      .nav__links {
+        display: flex;
+      }
+      .nav__toggle {
+        display: none;
+      }
+      .nav__cta {
+        padding: 10px 18px;
+      }
+      .cta-full {
+        display: inline;
+      }
+      .cta-short {
+        display: none;
+      }
+    }
+
+    /* Mobile Popover */
+    .mobile-menu {
+      position: fixed;
+      top: calc(var(--nav-h) + 8px);
+      right: var(--gutter);
+      left: auto;
+      width: min(224px, calc(100vw - 2 * var(--gutter)));
+      z-index: 49;
+      background: var(--surface-dark);
+      border: 1px solid var(--line-dark-strong);
+      border-radius: 16px;
+      padding: 6px;
+      box-shadow: 0 18px 40px rgba(8, 22, 14, 0.55);
+    }
+
+    .mobile-menu:not([hidden]) {
+      animation: menu-pop 160ms var(--ease-out) both;
+    }
+
+    .mobile-menu__list {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: 2px;
+    }
+
+    .mobile-menu__link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 46px;
+      padding: 0 14px;
+      border-radius: 10px;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--bg-light);
+      text-decoration: none;
+      transition: background-color 140ms var(--ease-ui), color 140ms var(--ease-ui);
+    }
+
+    .mobile-menu__link:active {
+      background: var(--bg-dark);
+      color: var(--amber);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .mobile-menu__link:hover {
+        background: var(--bg-dark);
+        color: var(--amber);
+      }
+    }
+
+    .mobile-menu__link:focus-visible {
+      outline-offset: -2px;
+    }
+
+    /* Shared Section & Typography Tokens */
+    .band {
+      padding-block: clamp(44px, 7.5vw, 96px);
+    }
+
+    .band--dark {
+      background: var(--bg-dark);
+      color: var(--bg-light);
+    }
+
+    .band--light {
+      background: var(--bg-light);
+      color: var(--bg-dark);
+    }
+
+    .eyebrow {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 1.3;
+    }
+
+    .eyebrow--dark {
+      color: var(--amber);
+    }
+
+    .eyebrow--light {
+      color: var(--green);
+    }
+
+    .section-title {
+      margin-top: 12px;
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4.2vw, 44px);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      color: var(--bg-dark);
+    }
+
+    .section-title--light {
+      color: var(--bg-light);
+    }
+
+    .section-lead {
+      margin-top: 14px;
+      font-size: clamp(16px, 1.9vw, 18px);
+      line-height: 1.55;
+      max-width: 58ch;
+    }
+
+    .section-lead--dark {
+      color: var(--muted-dark);
+    }
+
+    .section-lead--light {
+      color: var(--bg-dark);
+    }
+
+    .sub-display {
+      margin-top: 12px;
+      font-family: var(--font-display);
+      font-size: clamp(24px, 3.4vw, 34px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--bg-dark);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.35;
+    }
+
+    .pill--light {
+      background: var(--surface-light);
+      color: var(--bg-dark);
+    }
+
+    .pill--dark {
+      background: var(--bg-dark);
+      color: var(--bg-light);
+      border: 1px solid var(--line-dark-strong);
+    }
+
+    .pill--lg {
+      padding: 10px 18px;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .source-note {
+      margin-top: 20px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .source-note--dark {
+      color: var(--muted-dark);
+    }
+
+    .source-note--light {
+      color: var(--muted-light);
+    }
+
+    .section-divider {
+      margin-block: clamp(32px, 5.5vw, 64px);
+      border: 0;
+      border-top: 1px solid var(--line-light);
+    }
+
+    /* Band 1: Hero (Identity & Value Proposition) */
+    .hero {
+      padding-top: calc(var(--nav-h) + clamp(24px, 4.5vw, 52px));
+      padding-bottom: clamp(48px, 7vw, 76px);
+    }
+
+    @media (min-width: 960px) {
+      .hero {
+        min-height: min(100svh, 780px);
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .hero__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: clamp(32px, 5vw, 48px);
+      align-items: center;
+    }
+
+    @media (min-width: 960px) {
+      .hero__grid {
+        grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      }
+    }
+
+    .hero__copy {
+      animation: hero-enter 640ms var(--ease-out) both;
+    }
+
+    .hero__title {
+      margin-top: 12px;
+      font-family: var(--font-display);
+      font-size: clamp(29px, 4.8vw, 46px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      color: var(--bg-light);
+      max-width: 20ch;
+    }
+
+    .hero__lead {
+      margin-top: 16px;
+      font-size: clamp(16px, 2vw, 18px);
+      line-height: 1.55;
+      color: var(--bg-light);
+      max-width: 52ch;
+    }
+
+    /* Hero Identity Card */
+    .identity-card {
+      background: var(--surface-dark);
+      border-radius: 20px;
+      border: 1px solid rgba(243, 240, 230, 0.1);
+      padding: clamp(18px, 4vw, 30px);
+      animation: hero-enter 640ms 120ms var(--ease-out) both;
+    }
+
+    .identity-card__head {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .hero-emblem {
+      width: 68px;
+      height: 68px;
+      flex: 0 0 auto;
+      animation: emblem-settle 760ms var(--ease-out) both;
+    }
+
+    @media (min-width: 768px) {
+      .hero-emblem {
+        width: 76px;
+        height: 76px;
+      }
+    }
+
+    .identity-card__sig {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 2.4vw, 24px);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--amber);
+    }
+
+    .card-divider {
+      border: 0;
+      border-top: 1px solid var(--line-dark);
+      margin: 22px 0 8px;
+    }
+
+    .hero-facts {
+      display: grid;
+    }
+
+    .hero-facts__row {
+      padding-block: 14px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .hero-facts__row:not(:last-child) {
+      border-bottom: 1px solid var(--line-dark);
+    }
+
+    .hero-facts__row:last-child {
+      padding-bottom: 0;
+    }
+
+    .hero-facts dt {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted-dark);
+    }
+
+    .hero-facts dd {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.4;
+      color: var(--bg-light);
+    }
+
+    /* Band 2: Quem somos (Light) */
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: clamp(32px, 5vw, 48px);
+      align-items: start;
+    }
+
+    @media (min-width: 860px) {
+      .about-grid {
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      }
+    }
+
+    .about__body {
+      margin-top: 20px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .about__p {
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--bg-dark);
+      max-width: 56ch;
+    }
+
+    .pilot-panel {
+      background: var(--surface-light);
+      border-radius: 20px;
+      padding: clamp(18px, 4vw, 30px);
+    }
+
+    .pilot-panel__title {
+      margin-top: 10px;
+      font-family: var(--font-display);
+      font-size: clamp(22px, 2.8vw, 26px);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--bg-dark);
+    }
+
+    .pilot-steps {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .pilot-steps__item {
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr);
+      gap: 14px;
+      align-items: center;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      background: var(--bg-light);
+    }
+
+    .pilot-steps__num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--green);
+      color: var(--bg-light);
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .pilot-steps__text {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.4;
+      color: var(--bg-dark);
+    }
+
+    .pilot-panel__note {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line-light);
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--muted-light);
+    }
+
+    /* Band 3: O problema (Dark) */
+    .kpi-grid {
+      margin-top: 32px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+
+    @media (min-width: 640px) {
+      .kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+      }
+    }
+
+    .kpi-card {
+      background: var(--surface-dark);
+      border-radius: 18px;
+      border: 1px solid rgba(243, 240, 230, 0.08);
+      padding: clamp(18px, 4vw, 30px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .stat-val {
+      font-family: var(--font-display);
+      font-size: clamp(38px, 5vw, 48px);
+      font-weight: 700;
+      line-height: 1.02;
+      letter-spacing: -0.025em;
+      color: var(--amber);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-desc {
+      font-size: 16px;
+      line-height: 1.45;
+      color: var(--bg-light);
+    }
+
+    .progress-track {
+      margin-top: 6px;
+      height: 12px;
+      width: 100%;
+      border-radius: 999px;
+      background: var(--bg-dark);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 85%;
+      height: 100%;
+      border-radius: 999px;
+      background: var(--amber);
+      transform-origin: left;
+      animation: bar-fill 850ms 180ms var(--ease-out) both;
+    }
+
+    .reality-grid {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+
+    @media (min-width: 860px) {
+      .reality-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+      }
+    }
+
+    .problem-card {
+      background: var(--surface-dark);
+      border-radius: 18px;
+      border: 1px solid rgba(243, 240, 230, 0.08);
+      padding: clamp(18px, 4vw, 30px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .problem-card__head {
+      display: grid;
+      gap: 12px;
+      justify-items: start;
+    }
+
+    .card-heading {
+      font-family: var(--font-display);
+      font-size: clamp(21px, 2.5vw, 25px);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--bg-light);
+    }
+
+    /* Timeline inside dark card */
+    .timeline {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: 20px;
+      position: relative;
+    }
+
+    .timeline__item {
+      position: relative;
+      display: grid;
+      grid-template-columns: 20px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .timeline__item:not(:last-child)::before {
+      content: "";
+      position: absolute;
+      left: 8.75px;
+      top: 20px;
+      bottom: -22px;
+      width: 2.5px;
+      background: var(--green-leaf);
+    }
+
+    .timeline__dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--green-leaf);
+      margin: 4px 2px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .timeline__dot--alert {
+      background: var(--amber);
+    }
+
+    .timeline__year {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 3vw, 28px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--bg-light);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timeline__year--alert {
+      color: var(--amber);
+    }
+
+    .timeline__label {
+      margin-top: 3px;
+      font-size: 16px;
+      color: var(--muted-dark);
+    }
+
+    /* Distance visual inside dark card (always horizontal, Slide 4) */
+    .gap-diagram {
+      display: grid;
+      grid-template-columns: auto minmax(36px, 1fr) auto;
+      align-items: center;
+      gap: clamp(8px, 2.5vw, 16px);
+      padding-block: 10px;
+    }
+
+    .squircle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      border-radius: 42%;
+      font-family: var(--font-display);
+      font-weight: 700;
+      line-height: 1.15;
+      padding: 14px;
+      flex: 0 0 auto;
+    }
+
+    .squircle--green {
+      background: var(--green);
+      color: var(--bg-light);
+    }
+
+    .squircle--amber {
+      background: var(--amber);
+      color: var(--bg-dark);
+    }
+
+    .squircle--outline {
+      background: var(--bg-dark);
+      border: 2px solid var(--green-leaf);
+      color: var(--bg-light);
+    }
+
+    .gap-diagram .squircle {
+      width: clamp(86px, 25vw, 122px);
+      height: clamp(80px, 23vw, 112px);
+      font-size: clamp(14px, 3.9vw, 18px);
+      padding: 10px;
+    }
+
+    .gap-connector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .gap-line {
+      width: 100%;
+      height: 0;
+      border-top: 2.5px dashed rgba(184, 199, 188, 0.65);
+    }
+
+    .problem-card__note {
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--muted-dark);
+    }
+
+    .problem-card .source-note {
+      margin-top: 0;
+    }
+
+    /* Band 4: Nossa solução (Light) */
+    #solucao .section-lead {
+      font-size: clamp(17px, 2.2vw, 19px);
+    }
+
+    .solution-flow {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+    }
+
+    .flow-node {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .flow-node .squircle {
+      width: clamp(92px, 26vw, 108px);
+      height: clamp(86px, 24vw, 100px);
+      font-size: clamp(17px, 4.4vw, 19px);
+      padding: 10px;
+    }
+
+    .flow-node__meta {
+      min-width: 0;
+    }
+
+    .flow-node__caption {
+      font-size: clamp(18px, 4.6vw, 20px);
+      font-weight: 500;
+      line-height: 1.35;
+      color: var(--bg-dark);
+    }
+
+    .flow-node--hub .flow-node__caption {
+      font-weight: 700;
+    }
+
+    .flow-node__role {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 3px;
+    }
+
+    .flow-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--amber);
+      width: clamp(92px, 26vw, 108px);
+      height: 28px;
+      flex: 0 0 auto;
+    }
+
+    .flow-arrow svg {
+      width: 24px;
+      height: 24px;
+      transform: rotate(90deg);
+    }
+
+    @media (min-width: 768px) {
+      .solution-flow {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+        max-width: 880px;
+      }
+      .flow-node {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 16px;
+        flex: 1 1 0;
+      }
+      .flow-node .squircle {
+        width: 152px;
+        height: 142px;
+        font-size: 21px;
+      }
+      .flow-node--hub .squircle {
+        width: 176px;
+        height: 164px;
+        font-size: 24px;
+      }
+      .flow-node__role {
+        display: none;
+      }
+      .flow-node__caption {
+        font-size: 18px;
+      }
+      .flow-arrow {
+        width: 32px;
+        height: 164px;
+      }
+      .flow-arrow svg {
+        transform: none;
+      }
+    }
+
+    .pillars-wrap {
+      margin-top: clamp(36px, 6vw, 56px);
+      padding-top: clamp(28px, 5vw, 44px);
+      border-top: 1px solid var(--line-light);
+    }
+
+    .pillars-heading {
+      font-family: var(--font-display);
+      font-size: clamp(21px, 2.5vw, 24px);
+      font-weight: 700;
+      color: var(--bg-dark);
+    }
+
+    .pillars-grid {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+
+    @media (min-width: 820px) {
+      .pillars-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+      }
+    }
+
+    .pillar-card {
+      background: var(--surface-light);
+      border-radius: 18px;
+      border: 1px solid transparent;
+      padding: clamp(20px, 4vw, 24px);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pillar-num {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--green);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .pillar-title {
+      font-family: var(--font-display);
+      font-size: 23px;
+      font-weight: 700;
+      color: var(--bg-dark);
+    }
+
+    .pillar-body {
+      font-size: 17px;
+      line-height: 1.55;
+      color: var(--bg-dark);
+    }
+
+    /* Transformation Payoff inside Band 4 */
+    .transform-bridge {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 14px;
+      max-width: 820px;
+    }
+
+    .transform-box {
+      border-radius: 18px;
+      padding: clamp(22px, 3.8vw, 32px) 24px;
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: clamp(21px, 2.8vw, 26px);
+      font-weight: 700;
+      line-height: 1.2;
+      flex: 1 1 0;
+    }
+
+    .transform-box--before {
+      background: var(--surface-light);
+      color: var(--bg-dark);
+    }
+
+    .transform-box--after {
+      background: var(--green);
+      color: var(--bg-light);
+    }
+
+    .transform-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--amber);
+      height: 28px;
+    }
+
+    .transform-arrow svg {
+      width: 26px;
+      height: 26px;
+      transform: rotate(90deg);
+    }
+
+    @media (min-width: 640px) {
+      .transform-bridge {
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+      }
+      .transform-arrow {
+        height: auto;
+        width: 32px;
+      }
+      .transform-arrow svg {
+        transform: none;
+      }
+    }
+
+    .outcome-pills {
+      margin-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    /* Band 5: Contato & Footer (Dark) */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+
+    @media (min-width: 860px) {
+      .contact-grid {
+        grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+        gap: 48px;
+      }
+    }
+
+    .contact-desc {
+      margin-top: 16px;
+      font-size: 17px;
+      line-height: 1.55;
+      color: var(--bg-light);
+      max-width: 44ch;
+    }
+
+    .contact-tagline {
+      margin-top: 24px;
+      font-family: var(--font-display);
+      font-size: clamp(19px, 2.4vw, 22px);
+      font-weight: 700;
+      color: var(--amber);
+    }
+
+    .contact-card {
+      background: var(--surface-dark);
+      border-radius: 20px;
+      border: 1px solid rgba(243, 240, 230, 0.1);
+      padding: clamp(18px, 4vw, 30px);
+    }
+
+    .form-fields {
+      display: grid;
+      gap: 16px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--bg-light);
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      min-height: 48px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--line-dark-strong);
+      background: var(--bg-dark);
+      color: var(--bg-light);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.45;
+      transition: border-color 150ms var(--ease-ui);
+    }
+
+    .field select {
+      appearance: none;
+      padding-right: 42px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%23f0a93b' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 16px 16px;
+      cursor: pointer;
+    }
+
+    .field textarea {
+      min-height: 104px;
+      resize: vertical;
+    }
+
+    .field input[aria-invalid="true"],
+    .field select[aria-invalid="true"],
+    .field textarea[aria-invalid="true"] {
+      border-color: var(--amber);
+    }
+
+    .field__error {
+      margin-top: 6px;
+      font-size: 14px;
+      line-height: 1.35;
+      color: var(--amber);
+      min-height: 0;
+    }
+
+    .field__error:empty {
+      display: none;
+    }
+
+    .form__actions {
+      margin-top: 20px;
+    }
+
+    .form__status {
+      margin-top: 12px;
+      font-size: 14px;
+      line-height: 1.45;
+      color: var(--muted-dark);
+    }
+
+    .form__status:empty {
+      display: none;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--bg-dark);
+      color: var(--bg-light);
+      padding-bottom: clamp(36px, 5vw, 52px);
+    }
+
+    .footer__inner {
+      padding-top: 32px;
+      border-top: 1px solid var(--line-dark);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    @media (min-width: 768px) {
+      .footer__inner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .footer__brand-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer__tagline {
+      margin-top: 6px;
+      font-size: 14px;
+      color: var(--muted-dark);
+    }
+
+    .footer__right {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    @media (min-width: 768px) {
+      .footer__right {
+        align-items: flex-end;
+      }
+    }
+
+    .footer__links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 20px;
+    }
+
+    .footer__link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--bg-light);
+      text-decoration: none;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .footer__link:hover {
+        color: var(--amber);
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+    }
+
+    .footer__copy {
+      font-size: 13px;
+      color: var(--muted-dark);
+    }
+
+    /* Load & Interaction Keyframes */
+    @keyframes hero-enter {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes menu-pop {
+      from {
+        opacity: 0;
+        transform: translateY(-6px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes emblem-settle {
+      from {
+        transform: scale(1.04);
+      }
+      to {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes bar-fill {
+      from {
+        transform: scaleX(0);
+      }
+      to {
+        transform: scaleX(1);
+      }
+    }
+
+    /* Progressive-Enhancement Scroll Reveals & Synchronized Visuals */
+    .js-anim [data-reveal] {
+      opacity: 0;
+      transform: translateY(20px);
+      will-change: opacity, transform;
+      transition:
+        opacity 540ms var(--ease-out) var(--delay, 0ms),
+        transform 580ms var(--ease-out) var(--delay, 0ms),
+        border-color 180ms var(--ease-ui),
+        box-shadow 180ms var(--ease-ui);
+    }
+
+    .js-anim [data-reveal].is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      will-change: auto;
+    }
+
+    .js-anim .progress-fill {
+      animation: none;
+      transform: scaleX(0);
+      transition: transform 950ms 80ms var(--ease-out);
+    }
+
+    .js-anim .kpi-card.is-visible .progress-fill {
+      transform: scaleX(1);
+    }
+
+    .js-anim .gap-line {
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 650ms 180ms var(--ease-out);
+    }
+
+    .js-anim .problem-card.is-visible .gap-line {
+      transform: scaleX(1);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      :is(.kpi-card, .problem-card, .pillar-card, .pilot-steps__item) {
+        transition: transform 180ms var(--ease-ui), border-color 180ms var(--ease-ui), box-shadow 180ms var(--ease-ui);
+      }
+      :is(.kpi-card, .problem-card, .pillar-card, .pilot-steps__item):hover,
+      .js-anim [data-reveal].is-visible:is(.kpi-card, .problem-card, .pillar-card, .pilot-steps__item):hover {
+        --delay: 0ms;
+        transform: translateY(-2px);
+        transition-duration: 180ms;
+      }
+      .kpi-card:hover,
+      .problem-card:hover {
+        border-color: var(--line-dark-strong);
+      }
+      .pillar-card:hover,
+      .pilot-steps__item:hover {
+        border-color: var(--line-light);
+        box-shadow: 0 8px 24px rgba(18, 48, 31, 0.08);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      [data-reveal] {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav__inner">
+      <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+      <a href="#inicio" class="brand" aria-label="ReAgro — voltar ao início">
+        <svg class="brand__mark" viewBox="0 0 48 48" aria-hidden="true">
+          <circle cx="24" cy="24" r="19" fill="none" stroke="#f0a93b" stroke-width="4.2"/>
+          <circle cx="28" cy="19.5" r="8.2" fill="#2e8f57"/>
+        </svg>
+        <span class="brand__name">ReAgro</span>
+      </a>
+
+      <nav class="nav__links" aria-label="Seções da página">
+        <a href="#quem-somos" class="nav__link">Quem somos</a>
+        <a href="#problema" class="nav__link">O problema</a>
+        <a href="#solucao" class="nav__link">Solução</a>
+      </nav>
+
+      <div class="nav__actions">
+        <a href="#contato" class="btn btn--primary nav__cta">
+          <span class="cta-full">Entrar em contato</span>
+          <span class="cta-short">Contato</span>
+        </a>
+        <button
+          type="button"
+          class="nav__toggle"
+          id="menu-toggle"
+          aria-label="Abrir menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" id="menu-icon-open">
+            <path d="M3 6.5H17M3 13.5H17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" id="menu-icon-close" hidden>
+            <path d="M5 5L15 15M15 5L5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <nav aria-label="Menu principal">
+      <ul class="mobile-menu__list">
+        <li><a href="#quem-somos" class="mobile-menu__link">Quem somos</a></li>
+        <li><a href="#problema" class="mobile-menu__link">O problema</a></li>
+        <li><a href="#solucao" class="mobile-menu__link">Solução</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <main id="conteudo">
+    <section id="inicio" class="hero band--dark" aria-labelledby="hero-title">
+      <div class="wrap hero__grid">
+        <div class="hero__copy">
+          <p class="eyebrow eyebrow--dark">ReAgro · Agroindústria sustentável</p>
+          <h1 id="hero-title" class="hero__title">Conectamos quem gera resíduo agroindustrial a quem pode reaproveitá-lo.</h1>
+          <p class="hero__lead">Somos um mediador para o campo: destinamos, transportamos e documentamos resíduos agroindustriais para que o desperdício volte a valer como matéria-prima.</p>
+          <div class="btn-row">
+            <a href="#contato" class="btn btn--primary">
+              Entrar em contato
+              <svg class="m-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a href="#quem-somos" class="btn btn--secondary">Quem somos</a>
+          </div>
+        </div>
+
+        <aside class="identity-card" aria-label="Resumo da ReAgro">
+          <div class="identity-card__head">
+            <svg class="hero-emblem" viewBox="0 0 64 64" aria-hidden="true">
+              <circle cx="32" cy="32" r="25" fill="none" stroke="#f0a93b" stroke-width="5"/>
+              <circle cx="37" cy="26" r="10.5" fill="#2e8f57"/>
+            </svg>
+            <p class="identity-card__sig">O resíduo do campo volta a valer.</p>
+          </div>
+
+          <hr class="card-divider">
+
+          <dl class="hero-facts">
+            <div class="hero-facts__row">
+              <dt>Papel</dt>
+              <dd>Elo mediador entre produtor e destino</dd>
+            </div>
+            <div class="hero-facts__row">
+              <dt>Atuação</dt>
+              <dd>Destina · Transporta · Documenta</dd>
+            </div>
+            <div class="hero-facts__row">
+              <dt>Etapa atual</dt>
+              <dd>Piloto no Agreste de Pernambuco</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <section id="quem-somos" class="band band--light" aria-labelledby="quem-somos-title">
+      <div class="wrap about-grid">
+        <div>
+          <p class="eyebrow eyebrow--light">Quem somos</p>
+          <h2 id="quem-somos-title" class="section-title">Um mediador para o resíduo do campo voltar a valer</h2>
+          <div class="about__body">
+            <p class="about__p">A ReAgro nasce do desafio de tornar a agroindústria mais sustentável, transformando desperdício em oportunidade no campo. Atuamos como o elo entre quem gera resíduo agroindustrial e quem pode reaproveitá-lo como matéria-prima ou dar o descarte adequado.</p>
+            <p class="about__p">Em vez de deixar o produtor com resíduo parado e o comprador distante de insumos locais, estruturamos a mediação de ponta a ponta — da destinação ao transporte e à documentação exigida.</p>
+          </div>
+        </div>
+
+        <aside class="pilot-panel" aria-labelledby="piloto-title" data-reveal>
+          <p class="eyebrow eyebrow--light">Onde estamos · Próximos passos</p>
+          <h3 id="piloto-title" class="pilot-panel__title">Piloto no Agreste de PE</h3>
+
+          <ol class="pilot-steps">
+            <li class="pilot-steps__item" data-reveal style="--delay: 80ms">
+              <span class="pilot-steps__num">1</span>
+              <span class="pilot-steps__text">Resíduo e comprador definidos</span>
+            </li>
+            <li class="pilot-steps__item" data-reveal style="--delay: 160ms">
+              <span class="pilot-steps__num">2</span>
+              <span class="pilot-steps__text">Licenças: Adagro e CPRH</span>
+            </li>
+          </ol>
+
+          <p class="pilot-panel__note">Iniciativa estruturada a partir do desafio Ideathon de agroindústria sustentável.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="problema" class="band band--dark" aria-labelledby="problema-title">
+      <div class="wrap">
+        <p class="eyebrow eyebrow--dark">O problema</p>
+        <h2 id="problema-title" class="section-title section-title--light">Importamos adubo e deixamos adubo apodrecer</h2>
+        <p class="section-lead section-lead--dark">Enquanto o campo depende de fertilizantes vindos de fora, toneladas de nutrientes ficam paradas nos resíduos — alimentando pragas e expondo a distância entre quem gera e quem pode aproveitar.</p>
+
+        <div class="kpi-grid">
+          <div class="kpi-card" data-reveal>
+            <div class="stat-val" data-count="85" data-decimals="0" data-suffix="%">85%</div>
+            <p class="stat-desc">dos fertilizantes eram importados em 2025</p>
+            <div class="progress-track" aria-hidden="true">
+              <div class="progress-fill"></div>
+            </div>
+          </div>
+
+          <div class="kpi-card" data-reveal style="--delay: 100ms">
+            <div class="stat-val" data-count="8.57" data-decimals="2" data-suffix=" mi">8,57 mi</div>
+            <p class="stat-desc">de toneladas de nutrientes em resíduos se perdem por ano</p>
+          </div>
+        </div>
+        <p class="source-note source-note--dark">Fonte: Revista Cultivar</p>
+
+        <div class="reality-grid">
+          <article class="problem-card" data-reveal>
+            <div class="problem-card__head">
+              <h3 class="card-heading">Resíduo parado vira praga</h3>
+              <p class="pill pill--dark">Agreste de PE · mosca-dos-estábulos</p>
+            </div>
+
+            <ol class="timeline">
+              <li class="timeline__item" data-reveal style="--delay: 60ms">
+                <span class="timeline__dot" aria-hidden="true"></span>
+                <div>
+                  <div class="timeline__year">2014</div>
+                  <p class="timeline__label">Portaria da Adagro</p>
+                </div>
+              </li>
+              <li class="timeline__item" data-reveal style="--delay: 150ms">
+                <span class="timeline__dot" aria-hidden="true"></span>
+                <div>
+                  <div class="timeline__year">2016</div>
+                  <p class="timeline__label">Acordo (TAC)</p>
+                </div>
+              </li>
+              <li class="timeline__item" data-reveal style="--delay: 240ms">
+                <span class="timeline__dot timeline__dot--alert" aria-hidden="true"></span>
+                <div>
+                  <div class="timeline__year timeline__year--alert">Hoje</div>
+                  <p class="timeline__label">O problema persiste</p>
+                </div>
+              </li>
+            </ol>
+
+            <p class="source-note source-note--dark">Fonte: relatório de estágio, UFRPE (2024)</p>
+          </article>
+
+          <article class="problem-card" data-reveal style="--delay: 100ms">
+            <h3 class="card-heading">A distância entre quem gera e quem usa</h3>
+
+            <div class="gap-diagram">
+              <div class="squircle squircle--outline">Quem gera</div>
+              <div class="gap-connector" aria-hidden="true">
+                <span class="gap-line"></span>
+              </div>
+              <div class="squircle squircle--outline">Quem usa</div>
+            </div>
+
+            <p class="problem-card__note">Sem um elo de intermediação, o resíduo fica retido na origem enquanto quem poderia reaproveitá-lo segue desconectado.</p>
+            <p class="source-note source-note--dark">Fontes: Revista Cultivar; Sebrae (2023)</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="solucao" class="band band--light" aria-labelledby="solucao-title">
+      <div class="wrap">
+        <p class="eyebrow eyebrow--light">Nossa solução · O que fazemos e como</p>
+        <h2 id="solucao-title" class="section-title">ReAgro: o elo entre quem gera e quem usa</h2>
+        <p class="section-lead section-lead--light">O produtor registra o resíduo disponível, a ReAgro organiza toda a intermediação e o destino recebe o material pronto para reaproveitamento ou descarte regular.</p>
+
+        <div class="solution-flow">
+          <div class="flow-node" data-reveal>
+            <div class="squircle squircle--green">Produtor</div>
+            <div class="flow-node__meta">
+              <span class="flow-node__role">Etapa 1 · Produtor</span>
+              <p class="flow-node__caption">registra</p>
+            </div>
+          </div>
+
+          <div class="flow-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <div class="flow-node flow-node--hub" data-reveal style="--delay: 90ms">
+            <div class="squircle squircle--amber">ReAgro</div>
+            <div class="flow-node__meta">
+              <span class="flow-node__role">Etapa 2 · ReAgro</span>
+              <p class="flow-node__caption">destina · transporta · documenta</p>
+            </div>
+          </div>
+
+          <div class="flow-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <div class="flow-node" data-reveal style="--delay: 180ms">
+            <div class="squircle squircle--green">Destino</div>
+            <div class="flow-node__meta">
+              <span class="flow-node__role">Etapa 3 · Destino</span>
+              <p class="flow-node__caption">reaproveita ou descarta</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pillars-wrap">
+          <h3 class="pillars-heading">Como atuamos na prática</h3>
+          <div class="pillars-grid">
+            <article class="pillar-card" data-reveal>
+              <span class="pillar-num">01</span>
+              <h4 class="pillar-title">Destina</h4>
+              <p class="pillar-body">Conecta o resíduo registrado pelo produtor a quem pode reaproveitá-lo ou descartá-lo corretamente.</p>
+            </article>
+            <article class="pillar-card" data-reveal style="--delay: 90ms">
+              <span class="pillar-num">02</span>
+              <h4 class="pillar-title">Transporta</h4>
+              <p class="pillar-body">Organiza a movimentação do resíduo para vencer a distância entre quem gera e quem usa.</p>
+            </article>
+            <article class="pillar-card" data-reveal style="--delay: 180ms">
+              <span class="pillar-num">03</span>
+              <h4 class="pillar-title">Documenta</h4>
+              <p class="pillar-body">Registra e acompanha a destinação conforme as exigências da Adagro e da CPRH.</p>
+            </article>
+          </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <div>
+          <p class="eyebrow eyebrow--light">A transformação</p>
+          <h3 class="sub-display">De resíduo a matéria-prima</h3>
+
+          <div class="transform-bridge" data-reveal>
+            <div class="transform-box transform-box--before">Resíduo parado</div>
+            <div class="transform-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="transform-box transform-box--after">Matéria-prima</div>
+          </div>
+
+          <div class="outcome-pills" data-reveal style="--delay: 100ms">
+            <span class="pill pill--light pill--lg">Menos praga</span>
+            <span class="pill pill--light pill--lg">Mais renda</span>
+            <span class="pill pill--light pill--lg">Insumo mais barato</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contato" class="band band--dark" aria-labelledby="contato-title">
+      <div class="wrap contact-grid">
+        <div>
+          <p class="eyebrow eyebrow--dark">Contato</p>
+          <h2 id="contato-title" class="section-title section-title--light">Fale com a ReAgro</h2>
+          <p class="contact-desc">Gera resíduo agroindustrial, precisa de matéria-prima ou quer acompanhar o piloto no Agreste? Envie sua mensagem.</p>
+          <p class="contact-tagline">ReAgro: o resíduo do campo volta a valer.</p>
+        </div>
+
+        <div class="contact-card" data-reveal>
+          <form id="contact-form" action="mailto:contato@reagro.example" method="post" enctype="text/plain" novalidate>
+            <div class="form-fields">
+              <div class="field">
+                <label for="c-name">Nome</label>
+                <input id="c-name" name="name" type="text" autocomplete="name" required aria-describedby="c-name-err">
+                <p class="field__error" id="c-name-err" aria-live="polite"></p>
+              </div>
+
+              <div class="field">
+                <label for="c-email">E-mail</label>
+                <input id="c-email" name="email" type="email" autocomplete="email" required aria-describedby="c-email-err">
+                <p class="field__error" id="c-email-err" aria-live="polite"></p>
+              </div>
+
+              <div class="field">
+                <label for="c-role">Como você participa</label>
+                <select id="c-role" name="role" required aria-describedby="c-role-err">
+                  <option value="">Selecione uma opção</option>
+                  <option value="Gero resíduo (Produtor)">Gero resíduo (Produtor)</option>
+                  <option value="Reaproveito resíduo (Destino)">Reaproveito resíduo (Destino)</option>
+                  <option value="Parceiro ou piloto no Agreste">Parceiro ou piloto no Agreste</option>
+                </select>
+                <p class="field__error" id="c-role-err" aria-live="polite"></p>
+              </div>
+
+              <div class="field">
+                <label for="c-msg">Mensagem</label>
+                <textarea id="c-msg" name="message" rows="3" required aria-describedby="c-msg-err"></textarea>
+                <p class="field__error" id="c-msg-err" aria-live="polite"></p>
+              </div>
+            </div>
+
+            <div class="form__actions">
+              <button type="submit" class="btn btn--primary btn--full">
+                Entrar em contato
+                <svg class="m-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <p class="form__status" role="status" aria-live="polite" id="form-status"></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div>
+        <div class="footer__brand-row">
+          <svg class="brand__mark" viewBox="0 0 48 48" aria-hidden="true">
+            <circle cx="24" cy="24" r="19" fill="none" stroke="#f0a93b" stroke-width="4.2"/>
+            <circle cx="28" cy="19.5" r="8.2" fill="#2e8f57"/>
+          </svg>
+          <span class="brand__name">ReAgro</span>
+        </div>
+        <p class="footer__tagline">O resíduo do campo volta a valer.</p>
+      </div>
+
+      <div class="footer__right">
+        <nav class="footer__links" aria-label="Links do rodapé">
+          <a href="#inicio" class="footer__link">Início</a>
+          <a href="#quem-somos" class="footer__link">Quem somos</a>
+          <a href="#problema" class="footer__link">O problema</a>
+          <a href="#solucao" class="footer__link">Solução</a>
+        </nav>
+        <p class="footer__copy">&copy; 2026 ReAgro</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const toggle = document.getElementById('menu-toggle');
+      const drawer = document.getElementById('mobile-menu');
+      const iconOpen = document.getElementById('menu-icon-open');
+      const iconClose = document.getElementById('menu-icon-close');
+
+      const setMenu = (open) => {
+        if (!toggle || !drawer) return;
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+        drawer.hidden = !open;
+        if (iconOpen && iconClose) {
+          iconOpen.hidden = open;
+          iconClose.hidden = !open;
+        }
+      };
+
+      if (toggle && drawer) {
+        toggle.addEventListener('click', () => {
+          const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+          setMenu(!isOpen);
+        });
+
+        drawer.querySelectorAll('a[href^="#"]').forEach((link) => {
+          link.addEventListener('click', () => setMenu(false));
+        });
+
+        document.addEventListener('click', (e) => {
+          if (
+            toggle.getAttribute('aria-expanded') === 'true' &&
+            !drawer.contains(e.target) &&
+            !toggle.contains(e.target)
+          ) {
+            setMenu(false);
+          }
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+            setMenu(false);
+            toggle.focus();
+          }
+        });
+
+        const mq = window.matchMedia('(min-width: 820px)');
+        mq.addEventListener('change', (e) => {
+          if (e.matches) setMenu(false);
+        });
+      }
+
+      const form = document.getElementById('contact-form');
+      const status = document.getElementById('form-status');
+      if (!form || !status) return;
+
+      const fields = [
+        {
+          el: document.getElementById('c-name'),
+          err: document.getElementById('c-name-err'),
+          validate: (v) => (v.trim().length >= 2 ? '' : 'Informe seu nome para continuarmos.')
+        },
+        {
+          el: document.getElementById('c-email'),
+          err: document.getElementById('c-email-err'),
+          validate: (v) => (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) ? '' : 'Informe um e-mail válido com @.')
+        },
+        {
+          el: document.getElementById('c-role'),
+          err: document.getElementById('c-role-err'),
+          validate: (v) => (v.trim() ? '' : 'Selecione como você participa.')
+        },
+        {
+          el: document.getElementById('c-msg'),
+          err: document.getElementById('c-msg-err'),
+          validate: (v) => (v.trim().length >= 5 ? '' : 'Escreva uma mensagem breve com sua demanda.')
+        }
+      ];
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        let firstInvalid = null;
+        let errorCount = 0;
+
+        for (const item of fields) {
+          if (!item.el || !item.err) continue;
+          const msg = item.validate(item.el.value);
+          if (msg) {
+            item.el.setAttribute('aria-invalid', 'true');
+            item.err.textContent = msg;
+            errorCount++;
+            if (!firstInvalid) firstInvalid = item.el;
+          } else {
+            item.el.removeAttribute('aria-invalid');
+            item.err.textContent = '';
+          }
+        }
+
+        if (errorCount > 0) {
+          status.textContent = errorCount === 1
+            ? 'Revise o campo destacado antes de enviar.'
+            : `Revise os ${errorCount} campos destacados antes de enviar.`;
+          if (firstInvalid) firstInvalid.focus();
+          return;
+        }
+
+        const endpoint = form.getAttribute('data-endpoint');
+        const payload = {
+          name: fields[0].el.value.trim(),
+          email: fields[1].el.value.trim(),
+          role: fields[2].el.value.trim(),
+          message: fields[3].el.value.trim()
+        };
+
+        if (endpoint) {
+          status.textContent = 'Enviando mensagem...';
+          try {
+            const res = await fetch(endpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            if (!res.ok) throw new Error('status');
+            form.reset();
+            status.textContent = 'Mensagem enviada para a equipe da ReAgro.';
+          } catch {
+            status.textContent = 'Não foi possível enviar agora. Tente novamente em instantes.';
+          }
+          return;
+        }
+
+        const subject = encodeURIComponent(`Contato ReAgro — ${payload.role}`);
+        const body = encodeURIComponent(
+          `Nome: ${payload.name}\nE-mail: ${payload.email}\nParticipação: ${payload.role}\n\nMensagem:\n${payload.message}`
+        );
+        const target = form.getAttribute('action') || 'mailto:contato@reagro.example';
+        status.textContent = 'Abrindo seu aplicativo de e-mail com a mensagem preenchida.';
+        window.location.href = `${target}?subject=${subject}&body=${body}`;
+      });
+
+      /* Scroll-reveal & quantitative count-up (progressive enhancement) */
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const revealEls = [...document.querySelectorAll('[data-reveal]')];
+
+      if (!reducedMotion && 'IntersectionObserver' in window && revealEls.length) {
+        document.documentElement.classList.add('js-anim');
+
+        const animateCount = (el) => {
+          if (el.dataset.counted === '1') return;
+          el.dataset.counted = '1';
+
+          const target = parseFloat(el.dataset.count || '0');
+          const decimals = parseInt(el.dataset.decimals || '0', 10);
+          const suffix = el.dataset.suffix || '';
+          const finalText = el.textContent.trim();
+          const duration = decimals > 0 ? 1050 : 950;
+          const start = performance.now();
+
+          const tick = (now) => {
+            const t = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - t, 3);
+            if (t < 1) {
+              const value = (target * eased).toFixed(decimals).replace('.', ',');
+              el.textContent = `${value}${suffix}`;
+              requestAnimationFrame(tick);
+            } else {
+              el.textContent = finalText;
+            }
+          };
+
+          requestAnimationFrame(tick);
+        };
+
+        const revealEl = (el) => {
+          if (!el.classList.contains('is-visible')) {
+            el.classList.add('is-visible');
+          }
+          if (el.hasAttribute('data-count')) animateCount(el);
+          el.querySelectorAll('[data-count]').forEach(animateCount);
+        };
+
+        const io = new IntersectionObserver((entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting || entry.boundingClientRect.top < window.innerHeight) {
+              revealEl(entry.target);
+              io.unobserve(entry.target);
+            }
+          }
+        }, { threshold: 0.01, rootMargin: '0px 0px 40px 0px' });
+
+        const revealInView = () => {
+          const cutoff = window.innerHeight + 40;
+          for (const el of revealEls) {
+            if (el.classList.contains('is-visible')) continue;
+            if (el.getBoundingClientRect().top < cutoff) {
+              revealEl(el);
+              io.unobserve(el);
+            }
+          }
+        };
+
+        for (const el of revealEls) {
+          io.observe(el);
+        }
+
+        let scrollTicking = false;
+        const onScroll = () => {
+          if (scrollTicking) return;
+          scrollTicking = true;
+          requestAnimationFrame(() => {
+            scrollTicking = false;
+            revealInView();
+          });
+        };
+
+        revealInView();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+        window.addEventListener('hashchange', () => {
+          setTimeout(revealInView, 120);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
